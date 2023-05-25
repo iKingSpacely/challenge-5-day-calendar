@@ -59,4 +59,4 @@ $(".saveBtn").on("click", function() {
 
 
 
-//if the current time of day is X, then make all future hours green
+// if the current time of day is X, then make all future hours green
