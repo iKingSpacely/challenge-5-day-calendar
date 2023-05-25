@@ -1,9 +1,8 @@
 var dateDisplayEl = $("#currentDay");
 var timeDisplayEl = $("#currentTime");
 var userInput = $(".description");
-var now = dayjs().format("H");
-
-dateDisplayEl.text(dayjs().format("dddd MMM D, YYYY h:m:s"))
+var now = dayjs().format("dddd MMM D, YYYY");
+var currentHour = dayjs().format("H:mm:ss")
 
 var workHours = [
   (hour9El = $("#hour-9")),
@@ -21,10 +20,16 @@ var workHours = [
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that the code isn't run until the browser has finished rendering all the elements in the html.
 
 
-$(function () {
+$(function() {
+  function updateTime() {
+      var now = dayjs();
+      timeDisplayEl.text(now.format("dddd MMM D, YYYY h:mm:ss"));
+  }
 
+  updateTime();
+
+  setInterval(updateTime, 1000);
 });
-
 
 
 
@@ -37,15 +42,15 @@ $(".saveBtn").on("click", function() {
 
   localStorage.setItem(timeBlockId, textValue);
 
-  if (timeBlockId < now) {
-    now = "past";
-    container.setAttribute("class", "past");
-  } else if (timeBlockId > now) {
-    now = "future";
-    container.setAttribute("class", "future");
-    } else (timeBlockId === now) 
-    now = "present";
-    container.setAttribute("class", "present");
+  if (timeBlockId < currentHour) {
+    currentHour = "past";
+    container.attr("class", "past");
+  } else if (timeBlockId > currentHour) {
+    currentHour = "future";
+    container.attr("class", "future");
+    } else (timeBlockId === currentHour) 
+    currentHour = "present";
+    container.attr("class", "present");
 });
 
 
