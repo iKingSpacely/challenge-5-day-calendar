@@ -15,8 +15,7 @@ var workHours = [
 ];
 
 
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that the code isn't run until the browser has finished rendering all the elements in the html.
-
+// set the interval time for the dayjs code to show a live clock that counts up
 
 $(function() {
   function updateTime() {
@@ -27,36 +26,45 @@ $(function() {
   setInterval(updateTime, 1000);
 });
 
-// TODO: Add a listener for click events on the save button. This code should use the id in the containing time-block as a key to save the user input in local storage. HINT: What does `this` reference in the click listener function? How can DOM traversal be used to get the "hour-x" id of the time-block containing the button that was clicked? How might the id be useful when saving the description in local storage?
+// when the save button is clicked, the text value is saved to the local storage
 
 $(".saveBtn").on("click", function() {
   var timeBlockId = $(this).parent().attr("id");
   var textValue = $(this).siblings("textarea").val();
-
+  
+  
+  
   localStorage.setItem(timeBlockId, textValue);
+  
 });
 
-  var currentHour = dayjs().format("H");
+var currentHour = dayjs().format("H");
 
-  $(".time-block").each(function() {
+$(".time-block").each(function() {
       var timeBlockId = $(this).attr("id");
       var timeBlockHour = timeBlockId.split("-")[1];
       
       if (timeBlockHour < currentHour) {
-          $(this).removeClass("present future").addClass("past");
+        // if the current time of day is X, then make all previous hours gray
+        $(this).removeClass("present future").addClass("past");
       } else if (timeBlockHour === currentHour) {
-          $(this).removeClass("past future").addClass("present");
+        // if the current time of day is X, then make it red
+        $(this).removeClass("past future").addClass("present");
       } else {
-          $(this).removeClass("past present").addClass("future");
+        // if the current time of day is X, then make all future hours green
+        $(this).removeClass("past present").addClass("future");
       }
-  });
-
-
-// if the current time of day is X, then make it red
-
-
-// if the current time of day is X, then make all previous hours gray
-
-
-
-// if the current time of day is X, then make all future hours green
+    });
+    
+    
+    // grab the text input from the timeBlock ID after it's been saved to local storage and display it within the textarea class
+    
+    $(".time-block").each(function() {
+      var timeBlockID = $(this).attr("id");
+      var textInput = localStorage.getItem(timeBlockID);
+    
+      if (textInput) {
+        $(this).find("textarea").val(textInput);
+      }
+    }
+    )
