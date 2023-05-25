@@ -21,7 +21,7 @@ var workHours = [
 $(function() {
   function updateTime() {
       var now = dayjs();
-      timeDisplayEl.text(now.format("dddd MMM D, YYYY h:mm:ss"));
+      timeDisplayEl.text(now.format("dddd MMM D, YYYY h:mm:ssa"));
   }
   updateTime();
   setInterval(updateTime, 1000);
